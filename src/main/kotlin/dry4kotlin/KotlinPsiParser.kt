@@ -12,17 +12,17 @@ import java.nio.file.Files
 import java.nio.file.Path
 
 internal class KotlinPsiParser : Closeable {
-    private val disposable: Disposable = Disposer.newDisposable()
-    private val environment = KotlinCoreEnvironment.createForProduction(
-        disposable,
-        CompilerConfiguration(),
-        EnvironmentConfigFiles.JVM_CONFIG_FILES,
-    )
-    private val psiFactory = KtPsiFactory(environment.project, markGenerated = false)
+  private val disposable: Disposable = Disposer.newDisposable()
+  private val environment = KotlinCoreEnvironment.createForProduction(
+    disposable,
+    CompilerConfiguration(),
+    EnvironmentConfigFiles.JVM_CONFIG_FILES,
+  )
+  private val psiFactory = KtPsiFactory(environment.project, markGenerated = false)
 
-    fun parse(file: Path): KtFile = psiFactory.createFile(file.fileName.toString(), Files.readString(file))
+  fun parse(file: Path): KtFile = psiFactory.createFile(file.fileName.toString(), Files.readString(file))
 
-    override fun close() {
-        Disposer.dispose(disposable)
-    }
+  override fun close() {
+    Disposer.dispose(disposable)
+  }
 }
